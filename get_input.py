@@ -1,9 +1,14 @@
 import os
 
-from utils import BASE_PATH
-from concat_images import concatenate_images_horizontally, concatenate_images_with_line_breaks
+from utils import HOME_DIR
+from concat_images import concatenate_images_with_line_breaks
 
+# Get the current directory of the script
 
+# Construct the relative path to the image file
+
+# Now you can use the image_path to read the image
+# ... your image reading code ...
 def _translate_input(phrase):
     """
     Quando eh letra, ja associa a imagem lib.
@@ -34,7 +39,7 @@ def generate_word_image(word):
     # concatenated_image = concatenate_images_horizontally(image_paths)
     concatenated_image = concatenate_images_with_line_breaks(image_paths) # v2, mas o metodo ta bugado ainda
 
-    _NEW_SAVE_PATH = '/Users/arthur.antonia/dev/personal_projects/text_to_libras/saved_words'
+    _NEW_SAVE_PATH = HOME_DIR + '/saved_words'
 
     # if concatenated_image:
     #     # concatenated_image.show()  # Display the concatenated image

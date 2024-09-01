@@ -1,7 +1,10 @@
 from PIL import Image
 import os
 
-BASE_PATH = '/Users/arthur.antonia/dev/personal_projects/text_to_libras/image_library/'
+# BASE_PATH = '/Users/arthur.antonia/dev/personal_projects/text_to_libras/image_library/'
+HOME_DIR = os.path.dirname(os.path.abspath(__file__))
+
+BASE_PATH = HOME_DIR + '/image_library/'
 
 
 def read_image(path):

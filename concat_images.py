@@ -5,30 +5,30 @@ from PIL import Image
 from utils import read_image, BASE_PATH
 import os
 
-def concatenate_images_horizontally(image_paths, spacing=10):
-    images = [read_image(img_path) for img_path in image_paths]
-
-    # Filter out any None values (in case image loading failed)
-    images = [img for img in images if img is not None]
-
-    if not images:
-        print("No valid images to concatenate.")
-        return None
-
-    # Calculate the dimension of the final image
-    total_width = sum(img.width for img in images) + (spacing * (len(images) - 1))
-    max_height = max(img.height for img in images)
-
-    # Create a new blank image with the determined size
-    concatenated_image = Image.new('RGB', (total_width, max_height), (255, 255, 255))
-
-    # Paste each image into the new image
-    current_x = 0
-    for img in images:
-        concatenated_image.paste(img, (current_x, 0))
-        current_x += img.width + spacing  # Move the x position to the right
-
-    return concatenated_image
+# def concatenate_images_horizontally(image_paths, spacing=10):
+#     images = [read_image(img_path) for img_path in image_paths]
+#
+#     # Filter out any None values (in case image loading failed)
+#     images = [img for img in images if img is not None]
+#
+#     if not images:
+#         print("No valid images to concatenate.")
+#         return None
+#
+#     # Calculate the dimension of the final image
+#     total_width = sum(img.width for img in images) + (spacing * (len(images) - 1))
+#     max_height = max(img.height for img in images)
+#
+#     # Create a new blank image with the determined size
+#     concatenated_image = Image.new('RGB', (total_width, max_height), (255, 255, 255))
+#
+#     # Paste each image into the new image
+#     current_x = 0
+#     for img in images:
+#         concatenated_image.paste(img, (current_x, 0))
+#         current_x += img.width + spacing  # Move the x position to the right
+#
+#     return concatenated_image
 
 MAX_WIDTH_PER_LINE = 517*10 # o tamanho base das imagens eh 517, entao eh isso X 10 que achei ok  # Adjust this to your preferred maximum width
 
