@@ -30,7 +30,7 @@ def concatenate_images_horizontally(image_paths, spacing=10):
 
     return concatenated_image
 
-MAX_WIDTH_PER_LINE = 100  # Adjust this to your preferred maximum width
+MAX_WIDTH_PER_LINE = 517*10 # o tamanho base das imagens eh 517, entao eh isso X 10 que achei ok  # Adjust this to your preferred maximum width
 
 def concatenate_images_with_line_breaks(image_paths, spacing=10, max_width=MAX_WIDTH_PER_LINE):
     # TA BUGADO!!!
