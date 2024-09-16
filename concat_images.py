@@ -32,12 +32,13 @@ import os
 
 MAX_WIDTH_PER_LINE = 517*10 # o tamanho base das imagens eh 517, entao eh isso X 10 que achei ok  # Adjust this to your preferred maximum width
 
-def concatenate_images_with_line_breaks(image_paths, spacing=10, max_width=MAX_WIDTH_PER_LINE):
-    # TA BUGADO!!!
-    images = [read_image(img_path) for img_path in image_paths]
 
-    # Filter out any None values (in case image loading failed)
-    images = [img for img in images if img is not None]
+def concatenate_images_with_line_breaks(image_paths, spacing=5, extra_space=150, max_width=MAX_WIDTH_PER_LINE):
+    # Load images or add None for spaces
+    images = [read_image(img_path) if img_path is not None else None for img_path in image_paths]
+
+    # Filter out any failed image loads
+    images = [img for img in images if img is not None or img is None]
 
     if not images:
         print("No valid images to concatenate.")
@@ -50,21 +51,26 @@ def concatenate_images_with_line_breaks(image_paths, spacing=10, max_width=MAX_W
     max_height = 0
 
     for img in images:
-        if current_width + img.width <= max_width:
+        # If img is None, it's a space placeholder
+        img_width = img.width if img is not None else extra_space
+
+        if current_width + img_width <= max_width:
             current_line.append(img)
-            current_width += img.width + spacing
+            current_width += img_width + spacing
         else:
             lines.append(current_line)
             current_line = [img]
-            current_width = img.width + spacing
-        max_height = max(max_height, img.height)
+            current_width = img_width + spacing
+
+        if img is not None:  # Only update max_height for actual images
+            max_height = max(max_height, img.height)
 
     if current_line:
         lines.append(current_line)
 
     # Calculate dimensions for the final image with line breaks
     total_height = (max_height + spacing) * len(lines) - spacing
-    total_width = max(sum(img.width for img in line) + spacing * (len(line) - 1) for line in lines)
+    total_width = max(sum(img.width if img is not None else extra_space for img in line) + spacing * (len(line) - 1) for line in lines)
 
     # Create a new blank image with calculated size
     concatenated_image = Image.new('RGB', (total_width, total_height), (255, 255, 255))
@@ -74,15 +80,19 @@ def concatenate_images_with_line_breaks(image_paths, spacing=10, max_width=MAX_W
     for line in lines:
         current_x = 0
         for img in line:
-            concatenated_image.paste(img, (current_x, current_y))
-            current_x += img.width + spacing
+            if img is not None:
+                concatenated_image.paste(img, (current_x, current_y))
+                current_x += img.width + spacing
+            else:
+                current_x += extra_space + spacing  # Add extra space for 'None' placeholder
         current_y += max_height + spacing
 
     return concatenated_image
 
 # # Example usage:
-# image_paths = ['braile_a.png', 'braile_b.png']
-# concatenated_image = concatenate_images_horizontally(image_paths)
+# # Assuming 'None' is used to indicate a space in the input list
+# image_paths = ['braile_a.png', 'braile_b.png', None, 'braile_c.png']
+# concatenated_image = concatenate_images_with_line_breaks(image_paths)
 #
 # if concatenated_image:
 #     concatenated_image.show()  # Display the concatenated image
