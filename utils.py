@@ -18,6 +18,17 @@ def read_image(path):
         return None
 
 
+def read_alphabet_image():
+    alphabet_path = BASE_PATH + 'alfabeto/alfabeto.png'
+    try:
+        image = Image.open(alphabet_path)
+        # image.show()  # This will open the default viewer and display the image
+        return image
+    except Exception as e:
+        print(f'Error opening image {alphabet_path}: {e}')
+        return None
+
+
 # def convert_letter_string_to_image_name(string_letter: str):
 #     # todo: raise exception se o input n for letra
 #
